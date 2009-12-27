@@ -30,6 +30,8 @@ if 'mailer' in settings.INSTALLED_APPS:
 else:
     from django.core.mail import send_mail
 
+from notification.signals import notice_sent
+
 QUEUE_ALL = getattr(settings, "NOTIFICATION_QUEUE_ALL", False)
 
 class LanguageStoreNotAvailable(Exception):
@@ -325,6 +327,8 @@ def send_now(users, label, extra_context=None, on_site=True, sender=None):
         if should_send(user, notice_type, "1") and user.email: # Email
             recipients.append(user.email)
         send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, recipients)
+
+        notice_sent.send(sender=notice, context=context, messages=messages)
 
     # reset environment to original language
     activate(current_language)

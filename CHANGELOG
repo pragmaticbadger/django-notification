@@ -10,6 +10,8 @@ BI = backward incompatible change
    an optional sender
  * added received and sent methods taking a User instance to Notice.objects
  * New default behavior: single notice view now marks unseen notices as seen
+ * added a notice_sent signal which is fired for each notice sent when using
+   send or send_now.
 
 0.1.5
 -----
