@@ -322,11 +322,12 @@ def send_now(users, label, extra_context=None, on_site=True, sender=None):
             'message': messages['full.txt'],
         }, context)
 
-        notice = Notice.objects.create(recipient=user, message=messages['notice.html'],
+        notice = Notice(recipient=user, message=messages['notice.html'],
             notice_type=notice_type, on_site=on_site, sender=sender)
         if should_send(user, notice_type, "1") and user.email: # Email
             recipients.append(user.email)
         send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, recipients)
+        notice.save()
 
         notice_sent.send(sender=notice, context=context, messages=messages)
 
