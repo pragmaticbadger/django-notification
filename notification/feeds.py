@@ -40,7 +40,7 @@ class BaseNoticeFeed(Feed):
         return [{"href" : self.item_id(notification)}]
     
     def item_authors(self, notification):
-        return [{"name" : notification.user.username}]
+        return [{"name" : notification.sender.username}]
 
 
 class NoticeUserFeed(BaseNoticeFeed):
